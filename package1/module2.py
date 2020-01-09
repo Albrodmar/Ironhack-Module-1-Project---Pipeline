@@ -23,18 +23,18 @@ def webscrapping():
     gdp_new['GDP in Billions USD'] = gdp_new['GDP in Billions USD'].str.replace(',','')
     gdp_new['GDP in Billions USD'] = gdp_new['GDP in Billions USD'].astype(int)
     gdp_new['GDP in Billions USD'] = gdp_new['GDP in Billions USD']/1000
-    gdp_new.to_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/gdp.csv', index = False)
-    print('gdp.csv file generated at /data/processed')
+    gdp_new.to_csv('data/processed/gdp.csv', index = False)
+    print('CSV from webscrapping generated') #gdp.csv file generated at /data/processed
 
 def mergingcsv():
-    df_b = pd.read_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/billionaires.csv', index_col=False)
-    df_g = pd.read_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/gdp.csv', index_col=False)
+    df_b = pd.read_csv('data/processed/billionaires.csv', index_col=False)
+    df_g = pd.read_csv('data/processed/gdp.csv', index_col=False)
     df = pd.merge(df_b, df_g, on='Country', how='inner')
-    df.to_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/final.csv', index=False)
-    print ('stage1 file and webscrapping file merged at /data/processed/final.csv')
+    df.to_csv('data/processed/final.csv', index=False)
+    print ('Both CSV files Merged') #files merged at /data/processed/final.csv')
 
 def ploting():
-    df = pd.read_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/final.csv')
+    df = pd.read_csv('data/processed/final.csv')
     plt.style.use('seaborn')
     bycountry = df.groupby(['Country', 'GDP in Billions USD'])['worth in Billion USD'].sum().reset_index(
         name='Total richest worth')
@@ -45,8 +45,8 @@ def ploting():
     y = bycountry['% of GDP own by the richest']
     bycountry.plot(x='Country', y='% of GDP own by the richest', kind='barh', figsize=(6, 12))
     fig1 = plt.gcf()
-    fig1.savefig('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/results/image.png')
-    print('image generated with the plot at /data/results/image.png')
+    fig1.savefig('data/results/image.png')
+    print('IMAGE generated with the PLOT') #at /data/results/image.png
 
 def final_emailing():
     load_dotenv()
@@ -73,10 +73,4 @@ def final_emailing():
     s.login(sender_email_id, sender_email_id_password)
     s.sendmail(sender_email_id, receiver_email_id, text)
     s.quit()
-    print('Email sent')
-
-if __name__ == '__main__':
-    webscrapping()
-    mergingcsv()
-    ploting()
-    final_emailing()
+    print('EMAIL sent, enjoy it')

@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 
 # originaly at http://potacho.com/files/ironhack/Albrodmar.db
 def createdf() -> object:
-    engine = create_engine('sqlite:////home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/raw/Albrodmar.db')
+    engine = create_engine('sqlite:///data/raw/Albrodmar.db')
     df_business = pd.read_sql_query("SELECT * FROM business_info", engine)
     df_personal = pd.read_sql_query("SELECT * FROM personal_info", engine)
     df_rank = pd.read_sql_query('SELECT * FROM rank_info', engine)
@@ -30,8 +30,7 @@ def createdf() -> object:
     df_merged.loc[f_filter, 'gender'] = df_merged.loc[f_filter, 'gender'].replace('F', 'Female')
     df_merged[df_merged['Country'].isnull()].count()
     df = df_merged[pd.notnull(df_merged['Country'])]
-    df.to_csv('/home/alberto/Ironhack/projects/Ironhack-Module-1-Project---Pipeline/data/processed/billionaires.csv', index=False)
-    print('billionaires.csv generated at /data/processed')
+    df.to_csv('data/processed/billionaires.csv', index=False)
+    print('CSV file generated')  #at billionaires.csv generated at /data/processed
 
-if __name__ == '__main__':
-    createdf()
+
